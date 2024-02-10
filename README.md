@@ -6,21 +6,20 @@
 
 | Column             | Type                                       | Options                   |
 | ------------------ | ------------------------------------------ | --------------------------|
-| user_id            | IntegerInteger, Primary Key, Auto Increment| null: false,unique: true  |
 | nickname           | string                                     | null: false               |
 | email              | string                                     | null: false,unique: true  |
-| password           | string                                     | null: false               |
+| encrypted_password | string                                     | null: false               |
 | first_name         | string                                     | null: false               |
 | last_name          | string                                     | null: false               |
 | first_name_kana    | string                                     | null: false               |
 | last_name_kana     | string                                     | null: false               |
-| birth_date         | string                                     | null: false               |
+| date         　　　 | string                                     | null: false               |
 
 
 ### Association
 
-- has_many :products, dependent: :destroy
-- belongs_to :user
+- has_many :products
+- belongs_to :product
 
 
 ## product テーブル
@@ -28,7 +27,7 @@
 | Column             | Type                                       | Options                                 |
 | ------------------ | ------------------------------------------ | ----------------------------------------|
 | product_id         | Integer, Primary Key, Auto Increment       | unique: true                            |
-| seller user_id     | Integer                                    | null: false,foreign_key: true           |
+| seller_user_id     | Integer                                    | null: false,foreign_key: true           |
 | name               | string                                     | unique: true                            |
 | description        | text                                       | null: false                             |
 | category_id        | Integer                                    | null: false,foreign_key:true            |
@@ -56,25 +55,30 @@
 - belongs_to :category
 
 
-## oder テーブル
+## order テーブル
 
 | Column             | Type                                       | Options                     |
 | ------------------ | ------------------------------------------ | ----------------------------|
-| oder_id            | Integer, Primary Key, Auto Increment       | unique: true                |
 | user_id            | Integer                                    | null: false,foreign_key:true|
-| total_price        | string                                     | null: false                 |
-| payment_info       | string                                     | null: false                 |
-| shipping_info      | string                                     | null: false                 |  
+| product_id         | Integer                                    | null: false,foreign_key:true|
 
 
-- has_many :comments
+### Association
+ 
+- belongs_to :user
+- has_one :shipping_address
+- has_many :order_details
+- has_many :products, through: :order_details
 - belongs_to :order
 
-## comment テーブル
+
+##  ShippingAddress テーブル
 
 | Column             | Type                                       | Options                     |
 | ------------------ | ------------------------------------------ | ----------------------------|
-| comment_text       | text                                       | unique: true                |
-| user_id            | Integer                                    | null: false,foreign_key:true|
+| postal_code        | string                                     | null: false,presence: true  |
+| prefecture         | string                                     | null: false,presence: true  |
+| city               | string                                     | null: false,presence: true  |
+| street_address     | string                                     | presence: true              |
+| phone_number       | string                                     | null: false,presence: true  |
 
- README
