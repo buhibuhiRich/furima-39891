@@ -18,59 +18,49 @@
 
 ### Association
 
-- has_many :products
-- belongs_to :orders
+- has_many :orders
+- has_many :products, through: :orders
 
 
 
 ## products テーブル
 
-| Column             | Type                                       | Options                                 |
-| ------------------ | ------------------------------------------ | ----------------------------------------|
-| user_id            | Integer                                    | null: false,foreign_key:true            |
-| name               | string                                     | unique: true                            |
-| description        | text                                       | null: false                             |
-| category_id        | Integer                                    | null: false,foreign_key:true            |
-| shipping_info      | string                                     | null: false                             |
-| price              | string                                     | null: false                             |
+| Column                         | Type                                       | Options                                 |
+| -------------------------------| ------------------------------------------ | ----------------------------------------|
+| user_id                        | references                                 | null: false,foreign_key:true            |
+| name                           | string                                     | null: false                             |
+| description                    | integer                                    | null: false                             |
+| shipping_info                  | integer                                    | null: false                             |
+| price                          | integer                                    | null: false                             |
+| category_id                    | integer                                    | null: false                             |
+| condition_id                   | integer                                    | null: false                             |
+| shipping_cost_responsibility_id| integer                                    | null: false                             |
+| Shipping_from_region_id        | integer                                    | null: false                             |
+| days_until_shipment_id         | integer                                    | null: false                             |
 
 
 ### Association
+- has_many :orders
+- has_many :products, through: :orders
 
-- has_many :products
-- belongs_to :category
-
-
-## categories テーブル
-
-| Column             | Type                                       | Options                   |
-| ------------------ | ------------------------------------------ | --------------------------|
-| category_id        | Integer, Primary Key, Auto Increment       | unique: true              |
-| name               | string                                     | unique: true              |   
-
-
-### Association
-
-- has_many :products
 
 
 ## orders テーブル
 
 | Column             | Type                                       | Options                     |
 | ------------------ | ------------------------------------------ | ----------------------------|
-| user_id            | Integer                                    | null: false,foreign_key:true|
-| product_id         | Integer                                    | null: false,foreign_key:true|
+| user_id            | references                                 | null: false,foreign_key:true|
+| product_id         | references                                 | null: false,foreign_key:true|
 
 
 ### Association
  
 - has_one :shipping_address
-- has_many :products
 - belongs_to :user
 - belongs_to :product
 
 
-##  ShippingAddresses テーブル
+##  Shipping_Addresses テーブル
 
 | Column             | Type                                       | Options                     |
 | ------------------ | ------------------------------------------ | ----------------------------|
@@ -78,8 +68,8 @@
 | postal_code        | string                                     | null: false                 |
 | prefecture         | string                                     | null: false                 |
 | city               | string                                     | null: false                 |
-| street_address     | string                                     | presence: true              |
-| building_name      |string                                      | presence: true              |
+| street_address     | string                                     | null: false                 |
+| building_name      | string                                     |                             |
 | phone_number       | string                                     | null: false                 |
 
 ### Association
