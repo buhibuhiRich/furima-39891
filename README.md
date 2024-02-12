@@ -19,7 +19,7 @@
 ### Association
 
 - has_many :orders
-- has_many :products, through: :orders
+- has_many :products
 
 
 
@@ -27,10 +27,9 @@
 
 | Column                         | Type                                       | Options                                 |
 | -------------------------------| ------------------------------------------ | ----------------------------------------|
-| user_id                        | references                                 | null: false,foreign_key:true            |
+| user                           | references                                 | null: false,foreign_key:true            |
 | name                           | string                                     | null: false                             |
-| description                    | integer                                    | null: false                             |
-| shipping_info                  | integer                                    | null: false                             |
+| description                    | text                                       | null: false                             |
 | price                          | integer                                    | null: false                             |
 | category_id                    | integer                                    | null: false                             |
 | condition_id                   | integer                                    | null: false                             |
@@ -40,8 +39,8 @@
 
 
 ### Association
-- has_many :orders
-- has_many :products, through: :orders
+- has_one :orders
+- belongs_to :user
 
 
 
@@ -49,8 +48,8 @@
 
 | Column             | Type                                       | Options                     |
 | ------------------ | ------------------------------------------ | ----------------------------|
-| user_id            | references                                 | null: false,foreign_key:true|
-| product_id         | references                                 | null: false,foreign_key:true|
+| user               | references                                 | null: false,foreign_key:true|
+| product            | references                                 | null: false,foreign_key:true|
 
 
 ### Association
@@ -64,9 +63,9 @@
 
 | Column             | Type                                       | Options                     |
 | ------------------ | ------------------------------------------ | ----------------------------|
-| order_id           | Integer                                    | null: false,foreign_key:true|
+| order_id           | references                                 | null: false,foreign_key:true|
 | postal_code        | string                                     | null: false                 |
-| prefecture         | string                                     | null: false                 |
+| region             | string                                     | null: false                 |
 | city               | string                                     | null: false                 |
 | street_address     | string                                     | null: false                 |
 | building_name      | string                                     |                             |
