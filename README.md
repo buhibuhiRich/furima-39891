@@ -34,13 +34,18 @@
 | category_id                    | integer                                    | null: false                             |
 | condition_id                   | integer                                    | null: false                             |
 | shipping_cost_responsibility_id| integer                                    | null: false                             |
-| Shipping_from_region_id        | integer                                    | null: false                             |
+| shipping_from_region_id        | integer                                    | null: false                             |
 | days_until_shipment_id         | integer                                    | null: false                             |
 
 
 ### Association
-- has_one :orders
+- has_one :order
 - belongs_to :user
+- belongs_to :category
+- belongs_to :condition
+- belongs_to :shipping_cost_responsibility
+- belongs_to :shipping_from_region
+- belongs_to :days_until_shipment
 
 
 
@@ -61,15 +66,15 @@
 
 ##  Shipping_Addresses テーブル
 
-| Column             | Type                                       | Options                     |
-| ------------------ | ------------------------------------------ | ----------------------------|
-| order_id           | references                                 | null: false,foreign_key:true|
-| postal_code        | string                                     | null: false                 |
-| region             | string                                     | null: false                 |
-| city               | string                                     | null: false                 |
-| street_address     | string                                     | null: false                 |
-| building_name      | string                                     |                             |
-| phone_number       | string                                     | null: false                 |
+| Column                  | Type                                       | Options                     |
+| ------------------------| ------------------------------------------ | ----------------------------|
+| order                   | references                                 | null: false,foreign_key:true|
+| postal_code             | string                                     | null: false                 |
+| shipping_from_region_id | string                                     | null: false                 |
+| city                    | string                                     | null: false                 |
+| street_address          | string                                     | null: false                 |
+| building_name           | string                                     | null: false                 |
+| phone_number            | string                                     | null: false                 |
 
 ### Association
 
