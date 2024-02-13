@@ -70,7 +70,7 @@
 | ------------------------| ------------------------------------------ | ----------------------------|
 | order                   | references                                 | null: false,foreign_key:true|
 | postal_code             | string                                     | null: false                 |
-| shipping_from_region_id | string                                     | null: false                 |
+| shipping_from_region_id | integer                                    | null: false                 |
 | city                    | string                                     | null: false                 |
 | street_address          | string                                     | null: false                 |
 | building_name           | string                                     | null: false                 |
