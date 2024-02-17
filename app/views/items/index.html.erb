@@ -1,4 +1,14 @@
 <%= render "shared/header" %>
+<% if user_signed_in? %>
+  <!-- ログイン状態の場合 -->
+  <p>Welcome, <%= current_user.nickname %></p>
+  <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
+<% else %>
+  <!-- ログアウト状態の場合 -->
+  <%= link_to 'Sign up', new_user_registration_path %>
+  <%= link_to 'Log in', new_user_session_path %>
+<% end %>
+
 <div class='main'>
 
   <%# 画面上部の「人生を変えるフリマアプリ」帯部分 %>
