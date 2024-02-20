@@ -13,6 +13,5 @@ class User < ApplicationRecord
   validates :last_name_kana, presence: true
   validates :birth_date, presence: true
   attr_accessor :birth_date
-
 end
 
