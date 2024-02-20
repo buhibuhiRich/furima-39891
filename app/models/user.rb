@@ -12,6 +12,17 @@ class User < ApplicationRecord
   validates :first_name_kana, presence: true
   validates :last_name_kana, presence: true
   validates :birth_date, presence: true
+  validate :password_complexity
+
+  def password_complexity
+    return if password.blank?
+
+    unless password.match?(/^(?=.*[a-zA-Z])(?=.*\d).{6,}$/)
+      errors.add :password, "は無効です。英字と数字の両方を含めてください"
+    end
+  end
+  
+  
   attr_accessor :birth_date
 end
 
