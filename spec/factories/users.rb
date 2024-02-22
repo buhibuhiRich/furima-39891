@@ -1,4 +1,7 @@
+# ./spec/factories/users.rb
 FactoryBot.define do
+  FactoryBot.factories.clear
+
   factory :user do
     nickname              { 'test' }
     email                 { 'test@example.com' }

@@ -1,19 +1,20 @@
 require 'rails_helper'
-
-RSpec.describe Message, type: :model do
+RSpec.describe User, type: :model do
   before do
-    @message = FactoryBot.build(:message)
+    @user = FactoryBot.build(:user)
   end
-
+  
+  describe 'ユーザー新規登録' do
+    it '有効な情報が提供されると登録できること' do
+        expect(@user).to be_valid
+    end
+  end
+    
   describe 'メッセージ投稿' do
-    context 'メッセージが投稿できる場合' do
-    
-    
-    
-      it 'nicknameが空では登録できない' do
-      @user.nickname = ''
-      @user.valid?
-      expect(@user.errors.full_messages).to include "Nickname can't be blank"
+    it 'nicknameが空では登録できない' do
+       @user.nickname = ''
+       @user.valid?
+       expect(@user.errors.full_messages).to include "Nickname can't be blank"
     end
   
     it 'emailが空では登録できない' do
@@ -62,7 +63,7 @@ RSpec.describe Message, type: :model do
       @user.password = 'パスワード１２３' # 半角英数字以外のパスワード
       @user.password_confirmation = 'パスワード１２３'
       @user.valid?
-      expect(@user.errors.full_messages).to include("Password は無効です。英字と数字の両方を含めてください")
+      expect(@user.errors.full_messages).to include("Password is invalid")
     end
   
     it 'お名前(全角)が名字と名前が空では登録できない' do
