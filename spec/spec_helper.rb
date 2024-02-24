@@ -92,6 +92,5 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 
-  require 'factory_bot_rails'
-  FactoryBot.reload
+require 'factory_bot_rails'
 end
