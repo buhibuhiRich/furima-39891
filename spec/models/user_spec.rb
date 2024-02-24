@@ -3,14 +3,12 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
     before do
       @user = FactoryBot.build(:user)
-      @user.birth_date = Date.new(1990, 1, 1)
     end  
   describe 'ユーザー新規登録' do
     context '新規登録できるとき' do
       it '有効な情報が提供されると登録できること' do
         expect(@user).to be_valid
       end
-    end
 
     context '新規登録できないとき' do
       it 'nicknameが空では登録できない' do
@@ -112,12 +110,10 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Birth date can't be blank")
       end
     end
-  end
+  
 
-  describe '異常系 - 姓と名のバリデーション' do
-    before(:each) do
-      @user = User.new
-    end
+
+    context '新規登録できないとき' do
 
     it '姓（全角）に半角文字が含まれていると登録できない' do
       @user.last_name = 'Yamada'
