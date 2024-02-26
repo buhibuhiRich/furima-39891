@@ -1,6 +1,6 @@
-class Product < ApplicationRecord
+class Item < ApplicationRecord
+  has_one_attached :image
   extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to :genre
   belongs_to :user
 
   validates :name, presence: true
@@ -11,8 +11,5 @@ class Product < ApplicationRecord
   validates :shipping_cost_responsibility_id, presence: true
   validates :shipping_from_region_id, presence: true
   validates :days_until_shipment_id, presence: true
-  validates :genre_id, numericality: { other_than: 1, }
-  validates :genre_id, numericality: { other_than: 1 , message: "can't be blank"}
+  validates :genre_id, presence: { message: "を選択してください" }, numericality: { other_than: 1, message: "を選択してください" }
 end
-
-
