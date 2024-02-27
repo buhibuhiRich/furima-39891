@@ -49,10 +49,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_26_030331) do
     t.integer "shipping_cost_responsibility_id"
     t.integer "shipping_from_region_id"
     t.integer "days_until_shipment_id"
-    t.integer "genre_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_products_on_user_id"
+    t.index ["user_id"], name: "index_items_on_user_id"
   end
 
   create_table "users", charset: "utf8", force: :cascade do |t|

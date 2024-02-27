@@ -7,6 +7,7 @@ class ItemsController < ApplicationController
 
     def create
       @item = current_user.items.build(item_params)
+      
   
       if @item.save
         # 商品が保存できた場合の処理
@@ -21,7 +22,6 @@ class ItemsController < ApplicationController
     private
   
     def item_params
-      params.require(:item).permit(:name, :description, :price, :image, :category_id, :condition_id, :shipping_cost_responsibility_id, :shipping_from_region_id, :days_until_shipment_id, :genre_id)
+      params.require(:item).permit(:name, :description, :price, :image, :category_id, :condition_id, :shipping_cost_responsibility_id, :shipping_from_region_id, :days_until_shipment_id,)
     end
 end
-  
