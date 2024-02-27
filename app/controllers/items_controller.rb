@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
   
       if @item.save
         # 商品が保存できた場合の処理
-        redirect_to @item
+        redirect_to root_path
         # 商品が保存できなかった場合の処理
       else    
         puts @item.errors.full_messages 
