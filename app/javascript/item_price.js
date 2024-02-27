@@ -4,7 +4,7 @@ const profitDisplay = document.getElementById('profit');
 
 priceInput.addEventListener("input", () => {
   const inputValue = priceInput.value;
-  console.log(inputValue);
+  
   if (isNaN(inputValue)) {
     // 金額が数字でない場合の処理
     commissionDisplay.textContent = 'エラー';

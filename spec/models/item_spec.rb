@@ -33,32 +33,27 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Description can't be blank")
       end
   
-      it 'category_idが初期値だと登録できない' do
-        @item.category_id =Category.find(1)
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Category can't be blank")
-      end
-  
+      
       it 'condition_idが初期値だと登録できない' do
-        @item.condition_id = Category.find(1)
+        @item.condition_id = Condition.find(1)
         @item.valid?
         expect(@item.errors.full_messages).to include("Condition can't be blank")
       end
   
       it 'shipping_cost_responsibility_idが初期値だと登録できない' do
-        @item.shipping_cost_responsibility_id =Category.find(1)
+        @item.shipping_cost_responsibility_id = ShippingCostResponsibility.find(1)
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping cost responsibility can't be blank")
       end
   
       it 'shipping_from_region_idが初期値だと登録できない' do
-        @item.shipping_from_region_id = Category.find(1)
+        @item.shipping_from_region_id = ShippingFromRegion.find(1)
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping from region can't be blank")
       end
   
       it 'days_until_shipment_idが初期値だと登録できない' do
-        @item.days_until_shipment_id = Category.find(1)
+        @item.days_until_shipment_id = DaysUntilShipment.find(1)
         @item.valid?
         expect(@item.errors.full_messages).to include("Days until shipment can't be blank")
       end
@@ -85,7 +80,13 @@ RSpec.describe Item, type: :model do
         @item.price = 'abc'
         @item.valid?
         expect(@item.errors.full_messages).to include("Price is not a number")
-      end  
+      end 
+      
+      it 'userが紐付いていなければ出品できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")
+      end
     end
   end
 end
