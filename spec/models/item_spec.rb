@@ -33,7 +33,12 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Description can't be blank")
       end
   
-      
+      it 'category_idが初期値だと登録できない' do
+        @item.category_id = Category.find(1)
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category can't be blank")
+      end
+
       it 'condition_idが初期値だと登録できない' do
         @item.condition_id = Condition.find(1)
         @item.valid?
