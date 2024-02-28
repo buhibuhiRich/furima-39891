@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  name: MyString
+  description: MyText
+  price: 1
+  category_id: 1
+  condition_id: 1
+  shipping_cost_responsibility_id: 1
+  shipping_from_region_id: 1
+  days_until_shipment_id: 1
+
+two:
+  user: two
+  name: MyString
+  description: MyText
+  price: 1
+  category_id: 1
+  condition_id: 1
+  shipping_cost_responsibility_id: 1
+  shipping_from_region_id: 1
+  days_until_shipment_id: 1
