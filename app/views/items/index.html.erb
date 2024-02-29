@@ -1,6 +1,6 @@
-<%= render "shared/header" %>
-
+render "shared/header" %>
 <div class='main'>
+
   <%# 画面上部の「人生を変えるフリマアプリ」帯部分 %>
   <div class='title-contents'>
     <h2 class='service-title'>
@@ -18,7 +18,6 @@
     </div>
   </div>
   <%# /画面上部の「人生を変えるフリマアプリ」帯部分  %>
-
   <%# FURIMAが選ばれる3つの理由部分 %>
   <div class='select-reason-contents'>
     <h2 class='title'>
@@ -36,7 +35,28 @@
           スマホで入力するだけで簡単に出品できる！
         </p>
       </li>
-      <!-- 他の理由も同様に記述 -->
+      <li class='list'>
+        <%= image_tag "furima-intro02.png", class:"list-pict" %>
+        <span class='reason-list-number'>2</span>
+        <h3 class='reason-list-text'>
+          <span class='reason-list-blue-text'>シンプル</span>
+          で使いやすい
+        </h3>
+        <p class='reason-list-description'>
+          めんどくさい入力は必要なく、検索も購入もスムーズ！
+        </p>
+      </li>
+      <li class='list'>
+        <%= image_tag "furima-intro03.png", class:"list-pict" %>
+        <span class='reason-list-number'>3</span>
+        <h3 class='reason-list-text'>
+          手数料
+          <span class='reason-list-blue-text'>業界最安</span>
+        </h3>
+        <p class='reason-list-description'>
+          10%でお得に出品&購入！
+        </p>
+      </li>
     </ul>
   </div>
   <%# /FURIMAが選ばれる3つの理由部分 %>
@@ -49,7 +69,12 @@
     <p class='ad-explain'>
       FURIMAは、フリマアプリで最も人気。
     </p>
-    <!-- 他の説明も同様に記述 -->
+    <p class='ad-explain'>
+      出品・購入回数も業界最多です！
+    </p>
+    <p class='ad-explain'>
+      ほしかったあの商品に出会えるかもしれません。
+    </p>
     <div class='store-btn'>
       <%= link_to image_tag("app-store.svg", class:"apple-btn"), "#" %>
       <%= link_to image_tag("google-play.png", class:"google-btn"), "#" %>
@@ -57,6 +82,7 @@
   </div>
   <%# /画面中央の「会員数日本一位」帯部分 %>
 
+  
   <%# FURIMAの特徴 %>
   <div class='feature-contents'>
     <h2 class='title'>
@@ -72,7 +98,24 @@
           スマホひとつで、いつでもどこでも簡単に出品・購入が可能！
         </p>
       </li>
-      <!-- 他の特徴も同様に記述 -->
+      <li class='list'>
+        <%= image_tag "furima-intro05.png", class:"list-pict" %>
+        <h3 class='feature-list-text'>
+          売上金は即日振込みに対応
+        </h3>
+        <p class='feature-list-description'>
+          午前9時までに振込を依頼いただければ、翌日に指定の口座に入金いたします。
+        </p>
+      </li>
+      <li class='list'>
+        <%= image_tag "furima-intro06.png", class:"list-pict" %>
+        <h3 class='feature-list-text'>
+          様々な支払いに対応
+        </h3>
+        <p class='feature-list-description'>
+          お支払いは、クレジットカードだけでなく、ポイントや売上金など多彩な方法があります。
+        </p>
+      </li>
     </ul>
   </div>
   <%# /FURIMAの特徴 %>
@@ -132,34 +175,7 @@
     <% end %>
   </li>
 <% else %>
-  <ul class='item-lists'>
-    <% @items.each do |item| %>
-      <li class='list'>
-        <%= link_to '#' do %>
-          <%= image_tag item.image.variant(resize: '300x300'), class: 'item-image' if item.image.attached? %>
-          <% if item.sold_out %>
-            <div class='sold-out'>
-              <span>Sold Out!!</span>
-            </div>
-          <% end %>
-        </div>
-        <div class='item-info'>
-          <h3 class='item-name'>
-            <%= item.name %>
-          </h3>
-          <div class='item-price'>
-            <span><%= "#{item.price}円" %><br><%= item.shipping_cost_responsibility.name %></span>
-            <div class='star-btn'>
-              <%= image_tag "star.png", class:"star-icon" %>
-              <span class='star-count'>0</span>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </li>
-    <% end %>
-  </ul>
-<% end %>
+  
 
 
 <%= link_to new_item_path, class: 'purchase-btn' do %>
@@ -168,5 +184,5 @@
 <% end %>
 
 <%= render "shared/footer" %>
-<%= link_to '出品する', new_item_path, class: "sell-btn" %>
 
+<% end %>
