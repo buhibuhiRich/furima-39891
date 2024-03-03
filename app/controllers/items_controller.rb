@@ -26,8 +26,6 @@ class ItemsController < ApplicationController
 
   def edit
     @item = Item.find(params[:id])
-
-    elsif 
       @item.user != current_user
       redirect_to root_path
     end
@@ -51,4 +49,3 @@ class ItemsController < ApplicationController
   def set_item
     @item = Item.find(params[:id])
   end
-end
