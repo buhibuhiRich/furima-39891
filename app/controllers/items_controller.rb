@@ -1,6 +1,8 @@
 class ItemsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
-
+  
+  
   def new
     @item = Item.new
   end
@@ -21,20 +23,17 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
+    
   end
 
   def edit
-    @item = Item.find(params[:id])
-      @item.user != current_user
-      redirect_to root_path
+    if !user_signed_in? || @item.user != current_user
+      redirect_to new_user_session_path
     end
-  end
-
+  end  
+  
 
   def update
-    @item = Item.find(params[:id])
-  
     if @item.update(item_params)
       redirect_to item_path(@item)
     else
@@ -46,6 +45,13 @@ class ItemsController < ApplicationController
   
   private
 
+  def item_params
+    params.require(:item).permit(:name, :description, :price, :image, :category_id, :condition_id, :shipping_cost_responsibility_id, :shipping_from_region_id, :days_until_shipment_id).merge(user_id: current_user.id)
+  end
+
   def set_item
     @item = Item.find(params[:id])
   end
+end
+
+
