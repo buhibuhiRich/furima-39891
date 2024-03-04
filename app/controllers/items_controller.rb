@@ -27,10 +27,10 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    if !user_signed_in? || @item.user != current_user
-      redirect_to new_user_session_path
+    if !(user_signed_in? && @item.user == current_user)
+      redirect_to root_path
     end
-  end  
+  end
   
 
   def update
