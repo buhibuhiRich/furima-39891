@@ -8,6 +8,7 @@ class Item < ApplicationRecord
   belongs_to :shipping_cost_responsibility
   belongs_to :shipping_from_region
   belongs_to :days_until_shipment
+  has_many :orders
  
   validates :image, presence: true
   validates :name, presence: true
