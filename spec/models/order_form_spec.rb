@@ -10,7 +10,14 @@ RSpec.describe OrderForm, type: :model do
       it '有効な情報が提供されると保存できること' do
         expect(@order_form).to be_valid
       end
+    
+      it "priceとtokenがあれば保存ができること" do
+        expect(@order_form).to be_valid
+      end
     end
+    
+    
+
 
     context '保存できないとき' do
       it '郵便番号が必須であること' do
@@ -26,7 +33,7 @@ RSpec.describe OrderForm, type: :model do
       end
 
       it '都道府県が必須であること' do
-        @order_form.shipping_from_region_id = nil
+        @order_form.shipping_from_region_id = ''
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include("Shipping from region can't be blank")
       end
@@ -54,6 +61,13 @@ RSpec.describe OrderForm, type: :model do
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include("Phone number is invalid")
       end
+    
+      it "tokenが空では登録できないこと" do
+        @order_form.token =  ''
+        @order_form.valid?
+        expect(@order_form.errors.full_messages).to include("Token can't be blank")
+      end
     end
   end
-end
+end  
+

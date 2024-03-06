@@ -1,4 +1,5 @@
-class OrderForm
+class OrderForm 
+  attr_accessor :token, :price
   include ActiveModel::Model
   include ActiveModel::Validations
   attr_accessor :postal_code, :shipping_from_region_id, :city, :street_address, :building_name, :phone_number, :user
@@ -9,6 +10,7 @@ class OrderForm
   validates :street_address, presence: true
   validates :building_name, presence: true
   validates :phone_number, presence: true, format: { with: /\A\d{10,11}\z/ }
+  validates :token, presence: true
 
   def save
     return false unless valid?
@@ -20,9 +22,8 @@ class OrderForm
       street_address: street_address,
       building_name: building_name,
       phone_number: phone_number,
-      user: user
+      user: user,
     )
-
   
 
     true 

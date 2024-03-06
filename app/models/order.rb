@@ -1,3 +1,6 @@
+class Order < ApplicationRecord
+  
+
 def save
   return false unless valid?
 
