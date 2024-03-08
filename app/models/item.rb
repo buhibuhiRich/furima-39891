@@ -8,7 +8,7 @@ class Item < ApplicationRecord
   belongs_to :shipping_cost_responsibility
   belongs_to :shipping_from_region
   belongs_to :days_until_shipment
-  has_many :orders
+  has_one :order
  
   validates :image, presence: true
   validates :name, presence: true
@@ -19,9 +19,16 @@ class Item < ApplicationRecord
   validates :shipping_cost_responsibility_id, numericality: { other_than: 1 , message: "can't be blank"}
   validates :shipping_from_region_id, numericality:{ other_than: 1 , message: "can't be blank"}
   validates :days_until_shipment_id, numericality: { other_than: 1 , message: "can't be blank"}
-
-  # def sold_out
   
-  #   price <= 0
+
+  # def sold_out?
+  #   order&.purchased?
   # end
+
+
+
 end
+
+
+
+  

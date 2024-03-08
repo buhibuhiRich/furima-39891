@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :show]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+
   
   
   def new
@@ -23,24 +24,26 @@ class ItemsController < ApplicationController
   end
 
   def show
-    
+    @item = Item.find(params[:id])
+    unless @item.sold_out?
+      render :show
+      return
+    end
+    @order = Order.find_by(item_id: @item.id)
+    if user_signed_in? && @item.user == current_user && !@order&.purchased?
+      @editable = true
+    else
+      @editable = false
+    end
   end
-
+  
   def edit
-    unless current_user == @item.user
+    if current_user == @item.user && !@item.sold_out?
+      render :edit
+    else
       redirect_to root_path
     end
   end
-
-
-  def update
-    if @item.update(item_params)
-      redirect_to item_path(@item)
-    else
-      render :edit, status: :unprocessable_entity
-    end
-  end
-
   
   def destroy
     if @item.user == current_user
@@ -51,7 +54,10 @@ class ItemsController < ApplicationController
     end
   end  
   
- 
+  def sold_out
+    @item = Item.find(params[:id])
+  end
+
   
   private
 

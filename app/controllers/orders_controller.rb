@@ -2,30 +2,41 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    puts "params[:item_id]: #{params[:item_id]}"
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
-    @item = Item.find(params[:item_id])
     @order_form = OrderForm.new
   end
 
-  def create
+  def new
+    @order_form = OrderForm.new
     @item = Item.find(params[:item_id])
-    @order_form = OrderForm.new(order_params)
-    @order_form.user = current_user
+    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
+    respond_to do |format|
+      format.html { render 'orders/index' }
+    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: 'Item not found.'
+  end
 
+  def create
+    @order_form = OrderForm.new(order_form_params)
+    @item = Item.find(params[:item_id])
+    @order_form.user_id = current_user.id
     if @order_form.valid?
       pay_item
       @order_form.save
-      return redirect_to root_path
+      redirect_to root_path, notice: 'Order placed successfully.'
     else
       gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
-      render 'index', status: :unprocessable_entity
+      render :index, status: :unprocessable_entity
     end
-  end  
-      
-      
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: 'Item not found.'
+  end
+
   private
 
-  def order_params
+  def order_form_params
     params.require(:order_form).permit(
       :price,
       :postal_code,
@@ -33,16 +44,18 @@ class OrdersController < ApplicationController
       :city,
       :street_address,
       :building_name,
-      :phone_number
+      :phone_number,
+      :item_id,
+      :user_id,
     ).merge(token: params[:token])
   end
-  
+
   def pay_item
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
       {
-        amount: order_params[:price],  # 商品の値段
-        card: order_params[:token],    # カードトークン
+        amount: @item.price,  # 商品の値段
+        card: order_form_params[:token],    # カードトークン
         currency: 'jpy'                 # 通貨の種類（日本円）
       }
     )

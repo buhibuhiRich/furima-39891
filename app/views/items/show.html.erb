@@ -8,11 +8,11 @@
     </h2>
     <div class="item-img-content">
       <%= image_tag @item.image.variant(resize: '700x700'), class: 'item-image' if @item.image.attached? %>
-      <%# <% if @item.sold_out %> 
-        <%# <div class='sold-out'>   
-              <span>Sold Out!!</span>
-        </div>
-      <% end %> 
+      <%# <% if @item.sold_out? %> 
+        <%# <div class='sold-out'>
+        <span>Sold Out!!</span>
+        </div> %>
+      <%# <% end %> 
     </div>
     <div class="item-price-box">
       <span class="item-price">
@@ -23,14 +23,14 @@
       </span>
     </div>
 
-   <% if user_signed_in? %>
-     <% if current_user.id == @item.user_id %>
-          <%= link_to "商品の編集", edit_item_path(@item) , method: :get, class: "item-red-btn" %>
-          <%= link_to "削除", @item, method: :delete, data: {turbo_method: :delete}, class:"item-destroy" %>
-       <% else %>
-       <%= link_to "購入画面に進む", item_orders_path(@item), class: "item-red-btn", data: { turbo: false } %>
-     <% end %>
-   <% end %>
+    <%# <% if user_signed_in? && !@item.sold_out? %> 
+      <% if @item.user == current_user %>
+        <%= link_to "商品の編集", edit_item_path(@item), class: 'btn btn-primary' %>
+        <%= link_to "商品の削除", @item, method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger' %>
+      <% else %>
+        <%= link_to "購入画面に進む", new_item_order_path(@item), class: "item-red-btn" %>
+      <% end %>
+    <%# <% end %> 
 
     <div class="item-explain-box">
       <span><%= @item.name %></span>
@@ -73,9 +73,7 @@
         <span>不適切な商品の通報</span>
       </div>
     </div>
-
   </div>
-
   <%# /商品の概要 %>
   <div class="comment-box">
     <form>
@@ -99,9 +97,7 @@
       後ろの商品 ＞
     </a>
   </div>
-    <a href="#" class="another-item"><%= @item.category.name %>をもっと見る</a>
-  </div>
- 
+  <a href="#" class="another-item"><%= @item.category.name %>をもっと見る</a>
 </div>
 
 <%= render "shared/footer" %>
