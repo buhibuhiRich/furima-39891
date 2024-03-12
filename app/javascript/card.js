@@ -16,6 +16,7 @@ const pay = () => {
       if (response.error) {
       } else {
         const token = response.id;
+        console.log("トークン:", token); // トークンをコンソールに出力
         const renderDom = document.getElementById("charge-form");
         const tokenObj = `<input value=${token} name='token' type="hidden">`;
         renderDom.insertAdjacentHTML("beforeend", tokenObj);
@@ -32,3 +33,4 @@ const pay = () => {
 
 window.addEventListener("turbo:load", pay);
 window.addEventListener("turbo:render", pay);
+

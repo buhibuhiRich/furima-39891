@@ -21,9 +21,9 @@ class Item < ApplicationRecord
   validates :days_until_shipment_id, numericality: { other_than: 1 , message: "can't be blank"}
   
 
-  # def sold_out?
-  #   order&.purchased?
-  # end
+  def sold_out?
+    
+  end
 
 
 

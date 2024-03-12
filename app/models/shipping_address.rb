@@ -7,5 +7,6 @@ class ShippingAddress < ApplicationRecord
   validates :street_address, presence: true
   validates :building_name, presence: true
   validates :phone_number, presence: true
+  
 end
 

@@ -30,6 +30,7 @@ class ItemsController < ApplicationController
       return
     end
     @order = Order.find_by(item_id: @item.id)
+     @item = Item.find(params[:id])
     if user_signed_in? && @item.user == current_user && !@order&.purchased?
       @editable = true
     else
@@ -57,6 +58,12 @@ class ItemsController < ApplicationController
   def sold_out
     @item = Item.find(params[:id])
   end
+
+  def order
+    @item = Item.find(params[:id])
+    @order_form = OrderForm.new 
+  end
+  
 
   
   private

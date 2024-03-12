@@ -8,16 +8,11 @@ RSpec.describe OrderForm, type: :model do
   describe '配送先情報' do
     context '保存できるとき' do
       it '有効な情報が提供されると保存できること' do
-        expect(@order_form).to be_valid
-      end
-    
-      it "priceとtokenがあれば保存ができること" do
+        @order_form.item_id = 1
         expect(@order_form).to be_valid
       end
     end
     
-    
-
 
     context '保存できないとき' do
       it '郵便番号が必須であること' do
@@ -63,9 +58,16 @@ RSpec.describe OrderForm, type: :model do
       end
     
       it "tokenが空では登録できないこと" do
-        @order_form.token =  ''
+        @order_form.token = nil
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include("Token can't be blank")
+      end
+    
+      it 'item_idが空では登録できないこと' do
+        @order_form.item_id = nil
+        @order_form.token = 'tok_abcdefghijk00000000000000000'  # 仮にtokenに適切な値を設定
+        @order_form.valid?
+        expect(@order_form.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
