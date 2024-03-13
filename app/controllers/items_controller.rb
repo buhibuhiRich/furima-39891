@@ -39,12 +39,12 @@ class ItemsController < ApplicationController
   end
   
   def edit
-    if current_user == @item.user && !@item.sold_out?
-      render :edit
-    else
+    @item = Item.find(params[:id])
+    if current_user != @item.user || @item.sold_out?
       redirect_to root_path
     end
   end
+
   
   def destroy
     if @item.user == current_user
@@ -55,9 +55,7 @@ class ItemsController < ApplicationController
     end
   end  
   
-  def sold_out
-    @item = Item.find(params[:id])
-  end
+  
 
   def order
     @item = Item.find(params[:id])
