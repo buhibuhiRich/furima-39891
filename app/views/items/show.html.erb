@@ -27,8 +27,8 @@
 
     <% if user_signed_in? && !@item.sold_out? %>
       <% if @item.user == current_user %>
-        <%= link_to "商品の編集", edit_item_path(@item), class: 'btn btn-primary' %>
-        <%= link_to "商品の削除", @item, method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger' %>
+        <%= link_to "商品の編集", edit_item_path(@item), class: "item-red-btn" %>
+        <%= link_to "削除", @item, method: :delete, data: {turbo_method: :delete}, class:"item-destroy" %>
       <% else %>
         <%= link_to "購入画面に進む", item_orders_path(@item), data: { turbo: false },class: "item-red-btn" %>
       <% end %>
@@ -97,9 +97,17 @@
     </a>
     <a href="#" class="change-item-btn">
       後ろの商品 ＞
-    </a>　
+    </a>
   </div>
   <a href="#" class="another-item"><%= @item.category.name %>をもっと見る</a>
 </div>
 
 <%= render "shared/footer" %>
+
+  
+  
+  
+  
+  
+  
+   
