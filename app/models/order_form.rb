@@ -12,52 +12,19 @@ class OrderForm
   validates :item_id, presence: true
   validates :token, presence: true
 
-  
-  
-  
-  #  order_form_params
-  #   params.require(:order_form).permit(
-  #     :postal_code,
-  #     :shipping_from_region_id,
-  #     :city,
-  #     :street_address,
-  #     :building_name,
-  #     :phone_number,
-  #     :user_id,
-  #     :token
-  #   )def
-  # end
-  
+
   def save
     ActiveRecord::Base.transaction do
       order = Order.create!(user_id: user_id, item_id: item_id)
       ShippingAddress.create!(
-        user_id: user_id,
         order_id: order.id,
         postal_code: postal_code,
         shipping_from_region_id: shipping_from_region_id,
         city: city,
         street_address: street_address,
         building_name: building_name,
-        phone_number: phone_number
+        phone_number: phone_number,
       )
     end
   end
 end
-
-    #     if @order_form.valid?
-#       ShippingAddress.create(
-#         order: order,
-#         postal_code: postal_code,
-#         shipping_from_region_id: shipping_from_region_id,
-#         city: city,
-#         street_address: street_address,
-#         building_name: building_name,
-#         phone_number: phone_number
-#       )
-#     end
-#   end
-# end
-
-
-  
