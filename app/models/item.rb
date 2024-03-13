@@ -22,7 +22,7 @@ class Item < ApplicationRecord
   
 
   def sold_out?
-    order.present? && order.purchased?
+    order.present?
   end
 end
 

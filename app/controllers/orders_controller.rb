@@ -2,18 +2,30 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @order_form = OrderForm.new
     @item = Item.find(params[:item_id])
+    
+   
+    if current_user == @item.user
+      redirect_to root_path
+      return
+    end
+    
+    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
   end
   
   def create
     @order_form = OrderForm.new(order_form_params)
     @item = Item.find(params[:item_id])
-    @order_form.user_id = current_user.id
+    
+    if sold_out? || current_user == @item.user
+      redirect_to root_path
+      return
+    end
   
+    @order_form.user_id = current_user.id
+    
     if @order_form.valid?
- 
       order = @order_form.save
       pay_item
       redirect_to root_path
@@ -21,10 +33,7 @@ class OrdersController < ApplicationController
       gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
       render :index, status: :unprocessable_entity
     end
-  rescue ActiveRecord::RecordNotFound
-    redirect_to root_path
   end
-  
 
   private
 
@@ -45,9 +54,7 @@ class OrdersController < ApplicationController
           )
   end
   
-  
   def pay_item
-   
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
       {
@@ -56,5 +63,9 @@ class OrdersController < ApplicationController
         currency: 'jpy'
       }
     )
+  end
+  
+  def sold_out?
+    @item.sold_out?
   end
 end
