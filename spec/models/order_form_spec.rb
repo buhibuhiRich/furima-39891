@@ -2,17 +2,19 @@ require 'rails_helper'
 
 RSpec.describe OrderForm, type: :model do
   before do
-   
     @user = FactoryBot.create(:user)
     @item = FactoryBot.create(:item, user: @user)
-
-    
     @order_form = FactoryBot.build(:order_form, user_id: @user.id, item_id: @item.id)
   end
 
   describe '配送先情報' do
     context '保存できるとき' do
       it '有効な情報が提供されると保存できること' do
+        expect(@order_form).to be_valid
+      end
+
+      it '建物名が空でも保存できること' do
+        @order_form.building_name = ''
         expect(@order_form).to be_valid
       end
     end
@@ -83,11 +85,7 @@ RSpec.describe OrderForm, type: :model do
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include("Item can't be blank")
       end
-      
-      it '建物名が空でも保存できること' do
-        @order_form.building_name = ''
-        expect(@order_form).to be_valid
-      end
     end
   end
 end
+

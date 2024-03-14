@@ -31,7 +31,7 @@ class ItemsController < ApplicationController
     end
     @order = Order.find_by(item_id: @item.id)
      @item = Item.find(params[:id])
-    if user_signed_in? && @item.user == current_user && !@order&.purchased?
+    if user_signed_in? && @item.user == current_user && !@item.purchased?
       @editable = true
     else
       @editable = false
