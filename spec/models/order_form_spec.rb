@@ -39,11 +39,11 @@ RSpec.describe OrderForm, type: :model do
       end
 
       it '都道府県が必須であること' do
-        @order_form.shipping_from_region_id = ''
+        @order_form.shipping_from_region_id = 1
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include("Shipping from region can't be blank")
       end
-
+      
       it '市区町村が必須であること' do
         @order_form.city = ''
         @order_form.valid?

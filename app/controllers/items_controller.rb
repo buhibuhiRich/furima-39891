@@ -20,32 +20,27 @@ class ItemsController < ApplicationController
   def index
     @items = Item.order(created_at: :desc)
   end
-  
-  
+
   def show
-    @item = Item.find(params[:id])
     unless @item.sold_out?
       render :show
       return
     end
     @order = Order.find_by(item_id: @item.id)
-     @item = Item.find(params[:id])
     if user_signed_in? && @item.user == current_user && !@order&.purchased?
       @editable = true
     else
       @editable = false
     end
   end
-  
-  
-  
+
   def edit
-    unless current_user == @item.user
+    unless current_user == @item.user && !@item.sold_out? && !@item.order&.purchased?
       redirect_to root_path
     end
   end
-
-
+  
+  
   def update
     if @item.update(item_params)
       redirect_to item_path(@item)
@@ -54,8 +49,6 @@ class ItemsController < ApplicationController
     end
   end
 
-  
-  
   def destroy
     if @item.user == current_user
       @item.destroy
@@ -65,20 +58,17 @@ class ItemsController < ApplicationController
     end
   end  
 
-  
   def order
     @item = Item.find(params[:id])
     @order_form = OrderForm.new 
   end
-  
-  
-  
-  
+
   private
+
   def item_params
     params.require(:item).permit(:name, :description, :price, :image, :category_id, :condition_id, :shipping_cost_responsibility_id, :shipping_from_region_id, :days_until_shipment_id).merge(user_id: current_user.id)
   end
-  
+
   def set_item
     @item = Item.find(params[:id])
   end

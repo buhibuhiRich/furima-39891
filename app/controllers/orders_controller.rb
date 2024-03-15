@@ -1,9 +1,9 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_item, only: [:index, :create]
 
   def index
     @order_form = OrderForm.new
-    @item = Item.find(params[:item_id])
 
     unless @item.sold_out?
       @order = Order.find_by(item_id: @item.id)
@@ -19,20 +19,16 @@ class OrdersController < ApplicationController
       return
     end
   
-   
     if @order&.purchased?
       redirect_to root_path
       return
     end
   
-   
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
   end
   
-
   def create
     @order_form = OrderForm.new(order_form_params)
-    @item = @order_form.item
     
     if sold_out? || current_user == @item.user
       redirect_to root_path
@@ -51,6 +47,11 @@ class OrdersController < ApplicationController
     end
   end
 
+
+
+  
+
+  
   private
 
   def order_form_params
@@ -83,5 +84,9 @@ class OrdersController < ApplicationController
   
   def sold_out?
     @item.sold_out?
+  end
+
+  def set_item
+    @item = Item.find(params[:item_id])
   end
 end
