@@ -4,19 +4,35 @@ class OrdersController < ApplicationController
   def index
     @order_form = OrderForm.new
     @item = Item.find(params[:item_id])
-    
-   
-    if current_user == @item.user
+
+    unless @item.sold_out?
+      @order = Order.find_by(item_id: @item.id)
+      if user_signed_in? && @item.user == current_user && !@order&.purchased?
+        @editable = true
+      else
+        @editable = false
+      end
+    end
+  
+    if @item.sold_out?
       redirect_to root_path
       return
     end
-    
+  
+   
+    if @order&.purchased?
+      redirect_to root_path
+      return
+    end
+  
+   
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
   end
   
+
   def create
     @order_form = OrderForm.new(order_form_params)
-    @item = Item.find(params[:item_id])
+    @item = @order_form.item
     
     if sold_out? || current_user == @item.user
       redirect_to root_path

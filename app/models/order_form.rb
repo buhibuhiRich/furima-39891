@@ -5,8 +5,7 @@ class OrderForm
   validates :postal_code, :shipping_from_region_id, :city, :street_address, :phone_number, :user_id, :item_id, :token, presence: true
   validates :postal_code, format: { with: /\A\d{3}[-]\d{4}\z/ }
   validates :phone_number, format: { with: /\A\d{10,11}\z/ }
-  validates :user_id, presence: true
-  validates :item_id, presence: true
+  validates :user_id, :item_id, presence: true
   
   def save
     ActiveRecord::Base.transaction do
@@ -22,4 +21,9 @@ class OrderForm
       )
     end
   end
+
+  def item
+    Item.find(item_id)
+  end
+
 end
