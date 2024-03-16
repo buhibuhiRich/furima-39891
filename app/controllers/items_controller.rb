@@ -58,10 +58,6 @@ class ItemsController < ApplicationController
     end
   end  
 
-  def order
-    @item = Item.find(params[:id])
-    @order_form = OrderForm.new 
-  end
 
   private
 
