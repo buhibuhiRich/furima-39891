@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :item do
     association :user, factory: :user
     name { "靴" }
-    description {"テスト"}
+    description { "テスト" }
     category_id { 2 }
     condition_id { 2 }
     shipping_cost_responsibility_id { 2 }
