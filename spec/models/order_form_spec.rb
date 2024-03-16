@@ -73,6 +73,13 @@ RSpec.describe OrderForm, type: :model do
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include("Phone number is invalid")
       end
+
+      it '電話番号が半角数値以外では購入できないこと' do
+        @order_form.phone_number = '123456789a'
+        @order_form.valid?
+        expect(@order_form.errors.full_messages).to include("Phone number is invalid")
+      end
+
     
       it "tokenが空では登録できないこと" do
         @order_form.token = nil
