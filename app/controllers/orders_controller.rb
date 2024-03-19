@@ -1,10 +1,10 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, only: [:index, :create]
+  before_action :check_access, only: [:index]
 
   def index
     @order_form = OrderForm.new
-
     unless @item.sold_out?
       @order = Order.find_by(item_id: @item.id)
       if user_signed_in? && @item.user == current_user && !@order&.purchased?
@@ -13,30 +13,25 @@ class OrdersController < ApplicationController
         @editable = false
       end
     end
-  
-    if @item.sold_out?
+
+    if @item.sold_out? || @order&.purchased?
       redirect_to root_path
       return
     end
-  
-    if @order&.purchased?
-      redirect_to root_path
-      return
-    end
-  
+
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
   end
-  
+
   def create
     @order_form = OrderForm.new(order_form_params)
-    
+
     if sold_out? || current_user == @item.user
       redirect_to root_path
       return
     end
-  
+
     @order_form.user_id = current_user.id
-    
+
     if @order_form.valid?
       order = @order_form.save
       pay_item
@@ -47,11 +42,6 @@ class OrdersController < ApplicationController
     end
   end
 
-
-
-  
-
-  
   private
 
   def order_form_params
@@ -70,7 +60,7 @@ class OrdersController < ApplicationController
             token: params[:token]
           )
   end
-  
+
   def pay_item
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
@@ -81,12 +71,19 @@ class OrdersController < ApplicationController
       }
     )
   end
-  
+
   def sold_out?
     @item.sold_out?
   end
 
   def set_item
     @item = Item.find(params[:item_id])
+  end
+
+  def check_access
+    if user_signed_in? && @item.user == current_user
+      redirect_to root_path
+      return
+    end
   end
 end

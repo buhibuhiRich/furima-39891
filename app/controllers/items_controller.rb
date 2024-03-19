@@ -1,5 +1,4 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :show]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def new
@@ -33,13 +32,14 @@ class ItemsController < ApplicationController
       @editable = false
     end
   end
+    
+
 
   def edit
     unless current_user == @item.user && !@item.sold_out? && !@item.order&.purchased?
       redirect_to root_path
     end
   end
-  
   
   def update
     if @item.update(item_params)
