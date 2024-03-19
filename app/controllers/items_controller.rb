@@ -1,8 +1,9 @@
 class ItemsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def new
-    @item = Item.new
+    @item = current_user.items.build
   end
 
   def create
@@ -11,7 +12,7 @@ class ItemsController < ApplicationController
     if @item.save
       redirect_to root_path
     else
-      puts @item.errors.full_messages 
+      puts @item.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -25,6 +26,7 @@ class ItemsController < ApplicationController
       render :show
       return
     end
+
     @order = Order.find_by(item_id: @item.id)
     if user_signed_in? && @item.user == current_user && !@order&.purchased?
       @editable = true
@@ -32,15 +34,13 @@ class ItemsController < ApplicationController
       @editable = false
     end
   end
-    
-
 
   def edit
     unless current_user == @item.user && !@item.sold_out? && !@item.order&.purchased?
       redirect_to root_path
     end
   end
-  
+
   def update
     if @item.update(item_params)
       redirect_to item_path(@item)
@@ -56,8 +56,7 @@ class ItemsController < ApplicationController
     else
       redirect_to root_path
     end
-  end  
-
+  end
 
   private
 
